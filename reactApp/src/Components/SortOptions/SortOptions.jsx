@@ -1,22 +1,40 @@
 import { useState } from "react";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setState } from "../../redux/FilterAndSort";
+const dateArr = {
+  1: { text: "За сутки" },
+  3: { text: "За три дня" },
+  7: { text: "За неделю" },
+  30: { text: "За месяц" },
+  365: { text: "За все время" },
+};
+const orderArr = {
+  date: { text: "По дате" },
+  up: { text: "По убиванию зарплат" },
+  down: { text: "По возростанию зарплат" },
+};
 function SortOptions() {
+  const { period, order } = useSelector((state) => state.filterAndSort);
+  const dispatch = useDispatch();
   const [orderSort, setOrderSort] = useState({
     isOpen: false,
-    activeText: "По дате",
-    activeParam: "date",
   });
+
   const [periodSort, setPeriodSort] = useState({
     isOpen: false,
-    activeText: "За все время",
-    activeParam: "365",
   });
   function handlerClick(e) {
     if (e.target.parentNode.classList.contains("option__list_period")) {
-      console.log("period");
+      dispatch(setState({ type: "period", value: e.target.dataset.date }));
+      setPeriodSort({
+        isOpen: false,
+      });
     }
     if (e.target.parentNode.classList.contains("option__list_order")) {
-      console.log("order");
+      dispatch(setState({ type: "order", value: e.target.dataset.sort }));
+      setOrderSort({
+        isOpen: false,
+      });
     }
   }
   return (
@@ -25,36 +43,31 @@ function SortOptions() {
         <button
           className="option__btn option__btn_order"
           onClick={() => {
-            setOrderSort({ ...orderSort, isOpen: !orderSort.isOpen });
+            setOrderSort({ isOpen: !orderSort.isOpen });
+            setPeriodSort({ isOpen: false });
           }}
         >
-          {orderSort.activeText}
+          {orderArr[order].text}
         </button>
-        <input
-          type="hidden"
-          id="order_by"
-          name="order_by"
-          value={orderSort.activeParam}
-        />
+        <input type="hidden" id="order_by" name="order_by" value={order} />
 
         <ul
           className={`option__list option__list_order ${
             orderSort.isOpen ? "option__list_active" : ""
           }`}
         >
-          <li
-            className="option__item option__item_active"
-            tabIndex="1"
-            data-sort="date"
-          >
-            По дате
-          </li>
-          <li className="option__item" tabIndex="1" data-sort="up">
-            По убыванию зарплат
-          </li>
-          <li className="option__item" tabIndex="1" data-sort="down">
-            По возрастанию зарплат
-          </li>
+          {Object.keys(orderArr).map((item) => {
+            return (
+              <li
+                key={item}
+                className="option__item option__item_active"
+                tabIndex="1"
+                data-sort={item}
+              >
+                {orderArr[item].text}
+              </li>
+            );
+          })}
         </ul>
       </div>
 
@@ -62,16 +75,17 @@ function SortOptions() {
         <button
           className="option__btn option__btn_period"
           onClick={() => {
-            setPeriodSort({ ...periodSort, isOpen: !periodSort.isOpen });
+            setPeriodSort({ isOpen: !periodSort.isOpen });
+            setOrderSort({ isOpen: false });
           }}
         >
-          {periodSort.activeText}
+          {dateArr[period].text}
         </button>
         <input
           type="hidden"
           id="search_period"
           name="search_period"
-          value={periodSort.activeParam}
+          value={period}
         />
 
         <ul
@@ -79,21 +93,17 @@ function SortOptions() {
             periodSort.isOpen ? "option__list_active" : ""
           }`}
         >
-          <li className="option__item option__item_active" data-date="365">
-            За всё время
-          </li>
-          <li className="option__item" tabIndex="1" data-date="30">
-            За месяц
-          </li>
-          <li className="option__item" tabIndex="1" data-date="7">
-            За неделю
-          </li>
-          <li className="option__item" tabIndex="1" data-date="3">
-            За три дня
-          </li>
-          <li className="option__item" tabIndex="1" data-date="1">
-            За сутки
-          </li>
+          {Object.keys(dateArr).map((item) => {
+            return (
+              <li
+                key={item}
+                className="option__item option__item_active"
+                data-date={item}
+              >
+                {dateArr[item].text}
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>

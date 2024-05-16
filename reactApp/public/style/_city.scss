@@ -8,6 +8,7 @@
   background-color: #fff;
   border-top: 1px solid #d4d7d9;
   padding: 25px 0;
+  z-index: 9;
   overflow-y: auto;
   &_active {
     display: block;
@@ -87,7 +88,6 @@
   }
 
   &__region {
-
   }
 
   &__region-list {
@@ -103,11 +103,9 @@
   }
 
   &__region-item {
-
   }
 
   &__list {
-
   }
 
   &__item {
@@ -116,10 +114,9 @@
 
   &__link {
     color: #3c9df2;
-    transition: color .1s,opacity .1s;
+    transition: color 0.1s, opacity 0.1s;
     &:hover {
       color: #0d69ba;
     }
   }
-
 }

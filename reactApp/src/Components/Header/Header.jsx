@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ReactComponent as LogoImg } from "../../img/logo.svg";
 import { HeaderCityChoose } from "./HeaderCityChoose";
 import { setMainRegion, toggleMainRegion } from "../../redux/CityChooseSlice";
+import { Search } from "../Search/Search";
 function Header() {
   const dispatch = useDispatch();
   const { mainRegion } = useSelector((state) => state.mainRegion);
@@ -64,18 +65,7 @@ function Header() {
         </div>
         <div className="header__bottom bottom">
           <div className="container">
-            <form className="bottom__search">
-              <div className="bottom__search-wrapper">
-                <input className="bottom__input" type="search" name="search" />
-                <button
-                  className="bottom__advanced-options"
-                  type="button"
-                ></button>
-              </div>
-              <button className="bottom__btn" type="submit">
-                Найти
-              </button>
-            </form>
+            <Search />
 
             <nav className="bottom__navigation navigation">
               <ul className="navigation__list">
