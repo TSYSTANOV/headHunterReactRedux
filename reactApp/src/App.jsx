@@ -7,6 +7,7 @@ import { SortOptions } from "./Components/SortOptions/SortOptions";
 import { FilterOptions } from "./Components/FilterOptios/FilterOptions";
 import { VacanciesList } from "./Components/Vacancies/VacanciesList";
 import { ModalVacancy } from "./Components/Vacancies/ModalVacancy";
+import { SearchResults } from "./Components/Search/SearchResults";
 function App() {
   return (
     <BrowserRouter>
@@ -15,6 +16,7 @@ function App() {
         <main>
           <div className="container">
             <SortOptions />
+            <SearchResults />
             <div className="wrapper">
               <FilterOptions />
               <VacanciesList />

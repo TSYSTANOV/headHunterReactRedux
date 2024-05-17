@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSingleVacancy } from "../../redux/VacanciesSlice";
 import { useEffect, useState } from "react";
+import { BASE_URL } from "../../Utils/api";
 
 function ModalVacancy() {
   const dispatch = useDispatch();
@@ -13,36 +14,51 @@ function ModalVacancy() {
   }
   useEffect(() => {
     if (id) {
-      // setSingleVacancy after fetch(id) to server on VacanciesSlice
+      fetch(`${BASE_URL}/${id}`)
+        .then((res) => res.json())
+        .then((vacancy) => setSingleVacancy(vacancy));
     }
   }, [id]);
   return (
     <div
       className={`overlay overlay_vacancy ${isOpen ? "overlay_active" : ""}`}
     >
-      <div className="modal">
-        <button className="modal__close" onClick={closeHandler}>
-          X
-        </button>
-        <h2 className="modal__title">data.title</h2>
-        <p className="modal__compensation">data.compensation</p>
-        <p className="modal__employer">data.employer</p>
-        <p className="modal__address">data.address</p>
-        <p className="modal__experience">
-          Требуемый опыт работы: data.experience
-        </p>
-        <p className="modal__employment">data.employment</p>
-        <p className="modal__description">data.description</p>
-        <div className="modal__skills skills">
-          <h2 className="skills__title">Подробнее:</h2>
-          <ul className="skills__list">
-            <li className="skills__item">skill one</li>
-            <li className="skills__item">skill two</li>
-            <li className="skills__item">skill three</li>
-          </ul>
+      {SingleVacancy.id && (
+        <div className="modal">
+          <button className="modal__close" onClick={closeHandler}>
+            X
+          </button>
+          <h2 className="modal__title">{SingleVacancy.title}</h2>
+          <p className="modal__compensation">{SingleVacancy.compensation}</p>
+          <p className="modal__employer">{SingleVacancy.employer}</p>
+          <p className="modal__address">{SingleVacancy.address}</p>
+          <p className="modal__experience">
+            Требуемый опыт работы: {SingleVacancy.experience}
+          </p>
+          {SingleVacancy.employment.map((el) => {
+            return (
+              <p key={el} className="modal__employment">
+                {el}
+              </p>
+            );
+          })}
+
+          <p className="modal__description">{SingleVacancy.description}</p>
+          <div className="modal__skills skills">
+            <h2 className="skills__title">Подробнее:</h2>
+            <ul className="skills__list">
+              {SingleVacancy.skills.map((skill) => {
+                return (
+                  <li key={skill} className="skills__item">
+                    {skill}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+          <button className="modal__response">Отправить резюме</button>
         </div>
-        <button className="modal__response">Отправить резюме</button>
-      </div>
+      )}
     </div>
   );
 }

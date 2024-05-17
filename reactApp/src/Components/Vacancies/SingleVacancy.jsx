@@ -1,32 +1,36 @@
-function SingleVacancy() {
+function SingleVacancy({
+  title,
+  id,
+  workSchedule,
+  employer,
+  date,
+  compensation,
+  description,
+  address,
+}) {
   return (
     <li className="result__item">
       <article className="vacancy">
         <h2 className="vacancy__title">
-          <a className="vacancy__open-modal" href="#" data-vacancy="3515">
-            Junior Frontend разработчик
+          <a className="vacancy__open-modal" href="#" data-vacancy={id}>
+            {title}
           </a>
         </h2>
-        <p className="vacancy__compensation">
-          120&nbsp;000 – 150&nbsp;000 руб.
-        </p>
-        <p className="vacancy__work-schedule">Можно работать из дома</p>
+        <p className="vacancy__compensation">{compensation}</p>
+        <p className="vacancy__work-schedule">{workSchedule}</p>
         <div className="vacancy__employer">
-          <p className="vacancy__employer-title">HFLabs</p>
-          <p className="vacancy__employer-address">Москва</p>
+          <p className="vacancy__employer-title">{employer}</p>
+          <p className="vacancy__employer-address">{address}</p>
         </div>
-        <p className="vacancy__description">
-          Ожидаем, решения задач связанных с визуальными изменениями на сайтах
-          сервисов, к таковым задачам относится, как верстка ...
-        </p>
+        <p className="vacancy__description">{description}</p>
         <p className="vacancy__date">
-          <time dateTime="2022-02-25">25.02.2022</time>
+          <time dateTime="2022-02-25">{date}</time>
         </p>
         <div className="vacancy__wrapper-btn">
           <a
             className="vacancy__response vacancy__open-modal"
             href="#"
-            data-vacancy="3515"
+            data-vacancy={id}
           >
             Откликнуться
           </a>
